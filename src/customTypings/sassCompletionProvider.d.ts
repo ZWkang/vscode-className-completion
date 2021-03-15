@@ -1,4 +1,1 @@
-declare module 'css-selector-classes' {
-  function csc(selector: string): any[]
-  export default csc
-}
+declare module 'css-selector-classes'

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import CSC from 'css-selector-classes'
+import * as CSC from 'css-selector-classes'
 import getFileContentStringSync from './getFileContentStringSync'
 import getSassDeps from './getSassDeps'
 import * as path from 'path'
@@ -25,11 +25,14 @@ function SassProvideCompletionItems(
   const sassDepsResolvedPathList = sassDepsList.map((o: any) =>
     path.join(path.dirname(uri), o)
   )
+  // console.log(sassDepsResolvedPathList)
   const cssClassList = sassDepsResolvedPathList
     .map(parseSassFileClassName)
     .reduce((prev, next) => {
       return [...prev, ...next]
     }, [])
+
+  console.log(cssClassList)
 
   const linePrefix = document
     .lineAt(position)
@@ -38,7 +41,7 @@ function SassProvideCompletionItems(
   if (!testIsMatch(linePrefix)) {
     return undefined
   }
-
+  console.log(cssClassList.map((c: string) => CSC(c)).flat())
   return cssClassList
     .map((c: string) => CSC(c))
     .flat()
