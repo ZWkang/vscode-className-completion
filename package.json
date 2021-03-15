@@ -2,7 +2,7 @@
   "name": "vscode-className-Completion",
   "displayName": "ClassName Completion",
   "description": "a simple className completion tips with react+sass",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1",
   "publisher": "zwkang",
   "repository": {
     "type": "git",
