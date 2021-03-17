@@ -1,16 +1,11 @@
+import * as path from 'path'
 import * as vscode from 'vscode'
 import * as CSC from 'css-selector-classes'
-import getFileContentStringSync from './getFileContentStringSync'
+
 import getSassDeps from './getSassDeps'
-import * as path from 'path'
-
+import { flat, testIsMatch } from './util'
 import parseSassFileClassName from './parseSassFile'
-
-const reg = /className\s*?=\s*?"$|className\s*?=\s*?"[^"]*?$/
-
-function testIsMatch(lineContent: string) {
-  return reg.test(lineContent)
-}
+import getFileContentStringSync from './getFileContentStringSync'
 
 function SassProvideCompletionItems(
   document: vscode.TextDocument,
@@ -25,15 +20,11 @@ function SassProvideCompletionItems(
   const sassDepsResolvedPathList = sassDepsList.map((o: any) =>
     path.join(path.dirname(uri), o)
   )
-  // console.log(sassDepsResolvedPathList)
   const cssClassList = sassDepsResolvedPathList
     .map(parseSassFileClassName)
-    .reduce((prev, next) => {
-      return [...prev, ...next]
-    }, [])
+    .reduce((prev, next) => [...prev, ...next], [])
 
   console.log(cssClassList)
-
   const linePrefix = document
     .lineAt(position)
     .text.substr(0, position.character)
@@ -41,13 +32,9 @@ function SassProvideCompletionItems(
   if (!testIsMatch(linePrefix)) {
     return undefined
   }
-  console.log(cssClassList.map((c: string) => CSC(c)).flat())
-  return cssClassList
-    .map((c: string) => CSC(c))
-    .flat()
-    .map(o => {
-      return new vscode.CompletionItem(o, vscode.CompletionItemKind.Class)
-    })
+  return flat(cssClassList.map(CSC)).map(
+    (o: any) => new vscode.CompletionItem(o, vscode.CompletionItemKind.Class)
+  )
 }
 
 export default SassProvideCompletionItems

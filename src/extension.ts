@@ -22,19 +22,19 @@ const documentSelector: vscode.DocumentSelector = [
 ]
 
 export function activate(context: vscode.ExtensionContext) {
-  const provider1 = vscode.languages.registerCompletionItemProvider(
+  const quotesProvider = vscode.languages.registerCompletionItemProvider(
     documentSelector,
     {
       provideCompletionItems: SassProvideCompletionItems
     },
     '"'
   )
-  const provider4 = vscode.languages.registerCompletionItemProvider(
+  const spaceTriggerProvider = vscode.languages.registerCompletionItemProvider(
     documentSelector,
     {
       provideCompletionItems: SassProvideCompletionItems
     },
     ' '
   )
-  context.subscriptions.push(provider1, provider4)
+  context.subscriptions.push(quotesProvider, spaceTriggerProvider)
 }

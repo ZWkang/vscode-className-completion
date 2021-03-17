@@ -1,26 +1,27 @@
 import * as nodeSass from 'sass'
 import * as css from 'css'
-import * as path from 'path'
 
+import { depFileReg } from './constants'
 import getFileContentStringSync from './getFileContentStringSync'
+import { removeDuplicationList } from './util'
 
-function parseSassFileClassName(filePath: string): any[] {
-  if (
-    path.extname(filePath) === '.scss' ||
-    path.extname(filePath) === '.sass' ||
-    path.extname(filePath) === '.css'
-  ) {
+function parseSassFileClassName(filePath: string) {
+  if (depFileReg.test(filePath)) {
     const fileContent = getFileContentStringSync(filePath)
     const result = nodeSass.renderSync({
       data: fileContent
     })
     const cssContent = result.css.toString('utf-8')
-    const cssParser: any = css.parse(cssContent)
+    const cssParser = css.parse(cssContent)
+    if (!cssParser.stylesheet) {
+      return []
+    }
     const selectorList = cssParser.stylesheet.rules
-      .map((rule: any) => rule.selectors)
-      .reduce((prev: any, next: any) => [...prev, ...next], [])
+      .map((rule: css.Rule) => rule?.selectors)
+      .filter(v => v)
+      .reduce((prev = [], next = []) => [...prev, ...next], [])
 
-    return [...new Set(selectorList)]
+    return removeDuplicationList<string>(selectorList || [])
   }
   return []
 }

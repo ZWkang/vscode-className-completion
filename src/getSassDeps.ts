@@ -1,12 +1,13 @@
 import * as babel from '@babel/core'
 import * as sucrase from 'sucrase'
 
+import { depFileReg } from './constants'
+
 const { parse, traverse } = babel
 
 function getSassDeps(fileContent: string) {
+  const sassDeps = new Set()
   try {
-    const sassDeps = new Set()
-
     const compileCode = sucrase.transform(fileContent, {
       transforms: ['typescript', 'imports', 'jsx']
     }).code
@@ -22,26 +23,24 @@ function getSassDeps(fileContent: string) {
       //   }
       // }
       CallExpression: (node: any) => {
-        if (node && node.node && node.node.callee && node.node.callee.name) {
+        if (node?.node?.callee?.name) {
           const args = node?.node?.arguments
           if (args?.length !== 1) {
             return
           }
-          const requirePageName = args[0]?.value
+          const requireDepStyleFileName = args[0]?.value
           if (
-            requirePageName &&
+            requireDepStyleFileName &&
             node.node.callee.name === 'require' &&
-            /\.scss|\.sass/.test(requirePageName)
+            depFileReg.test(requireDepStyleFileName)
           ) {
-            sassDeps.add(requirePageName)
+            sassDeps.add(requireDepStyleFileName)
           }
         }
       }
     })
-
+  } finally {
     return sassDeps
-  } catch (e) {
-    return new Set()
   }
 }
 
