@@ -35,12 +35,14 @@
     "@types/babel__core": "^7.0.1",
     "@typescript-eslint/eslint-plugin": "^4.16.0",
     "@typescript-eslint/parser": "^4.16.0",
+    "@types/lru-cache": "^5.1.0",
     "eslint": "^7.21.0"
   },
   "dependencies": {
     "@babel/core": "^7.0.1",
     "css": "^3.0.0",
     "css-selector-classes": "^0.1.2",
+    "lru-cache": "^6.0.0",
     "sass": "^1.32.8",
     "sucrase": "^3.17.1",
     "typescript": "^4.2.2"

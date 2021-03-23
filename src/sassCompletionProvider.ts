@@ -3,7 +3,7 @@ import * as vscode from 'vscode'
 import * as CSC from 'css-selector-classes'
 
 import getSassDeps from './getSassDeps'
-import { flat, testIsMatch } from './util'
+import { flat, testIsMatch, getStyleFileCache, setStyleFileCache } from './util'
 import parseSassFileClassName from './parseSassFile'
 import getFileContentStringSync from './getFileContentStringSync'
 
@@ -21,10 +21,14 @@ function SassProvideCompletionItems(
     path.join(path.dirname(uri), o)
   )
   const cssClassList = sassDepsResolvedPathList
-    .map(parseSassFileClassName)
+    .map(o => {
+      if (getStyleFileCache(o)) return getStyleFileCache(o)
+      const content = parseSassFileClassName(o)
+      setStyleFileCache(o, content)
+      return content
+    })
     .reduce((prev, next) => [...prev, ...next], [])
 
-  console.log(cssClassList)
   const linePrefix = document
     .lineAt(position)
     .text.substr(0, position.character)

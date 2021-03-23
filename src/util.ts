@@ -1,4 +1,6 @@
+import singletonCache from './cache'
 import { triggerSuggestLineText } from './constants'
+import getCurrentActiveWorkspacePath from './getCurrentActiveWorkspacePath'
 
 export function removeDuplicationList<T extends string>(arr: T[]): T[] {
   if (Array.isArray(arr)) {
@@ -18,4 +20,12 @@ export function flat<T extends any[]>(arr: T) {
 
 export function testIsMatch(input: string) {
   return triggerSuggestLineText.test(input)
+}
+
+export function setStyleFileCache(filename: string, fileContent: any) {
+  return singletonCache.getInstance().set(filename, fileContent)
+}
+
+export function getStyleFileCache(filename: string) {
+  return singletonCache.getInstance().get(filename)
 }
