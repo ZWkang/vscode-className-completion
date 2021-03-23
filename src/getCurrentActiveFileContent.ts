@@ -1,13 +1,13 @@
-import * as vscode from 'vscode'
-import getFileContentStringSync from './getFileContentStringSync'
+import * as vscode from 'vscode';
+import getFileContentStringSync from './getFileContentStringSync';
 
 function getCurrentActiveFileContent() {
-  const currentlyActiveFile = vscode.window.activeTextEditor?.document.fileName
+  const currentlyActiveFile = vscode.window.activeTextEditor?.document.fileName;
   if (!currentlyActiveFile) {
-    return null
+    return null;
   }
 
-  return getFileContentStringSync(currentlyActiveFile)
+  return getFileContentStringSync(currentlyActiveFile);
 }
 
-export default getCurrentActiveFileContent
+export default getCurrentActiveFileContent;

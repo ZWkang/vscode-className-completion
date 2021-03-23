@@ -1,9 +1,9 @@
-import * as vscode from 'vscode'
+import * as vscode from 'vscode';
 
-const defaultSymbol = Symbol.for('defaultWorkspace')
+const defaultSymbol = Symbol.for('defaultWorkspace');
 
 function getCurrentActiveWorkspacePath() {
-  return vscode.workspace.workspaceFolders?.[0].uri.path || defaultSymbol
+  return vscode.workspace.workspaceFolders?.[0].uri.path || defaultSymbol;
 }
 
-export default getCurrentActiveWorkspacePath
+export default getCurrentActiveWorkspacePath;

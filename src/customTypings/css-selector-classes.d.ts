@@ -1,1 +1,1 @@
-declare module 'css-selector-classes'
+declare module 'css-selector-classes';
