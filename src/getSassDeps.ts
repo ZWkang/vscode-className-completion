@@ -14,14 +14,6 @@ function getSassDeps(fileContent: string) {
     const ast = parse(compileCode, { sourceType: 'module' })
 
     traverse(ast, {
-      // ImportDeclaration: (node: any) => {
-      //   if (node && node.node && node.node.source && node.node.source.value) {
-      //     if (/\.scss|\.sass/.test(node.node.source.value)) {
-      //       console.log(node.node.source.value)
-      //       sassDeps.add(node.node.source.value)
-      //     }
-      //   }
-      // }
       CallExpression: (node: any) => {
         if (node?.node?.callee?.name) {
           const args = node?.node?.arguments

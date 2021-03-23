@@ -1,7 +1,6 @@
 // cache all the parse css/scss/sass file.
 
 import * as LruCache from 'lru-cache'
-// function LruCache() {}
 
 const defaultOpts = {
   max: 200
