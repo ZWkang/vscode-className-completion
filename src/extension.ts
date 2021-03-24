@@ -45,6 +45,13 @@ export function activate(context: vscode.ExtensionContext) {
     },
     '"'
   );
+  const singleQuoteProvider = vscode.languages.registerCompletionItemProvider(
+    documentSelector,
+    {
+      provideCompletionItems: SassProvideCompletionItems
+    },
+    "'"
+  );
   const spaceTriggerProvider = vscode.languages.registerCompletionItemProvider(
     documentSelector,
     {
@@ -52,5 +59,9 @@ export function activate(context: vscode.ExtensionContext) {
     },
     ' '
   );
-  context.subscriptions.push(quotesProvider, spaceTriggerProvider);
+  context.subscriptions.push(
+    quotesProvider,
+    singleQuoteProvider,
+    spaceTriggerProvider
+  );
 }
