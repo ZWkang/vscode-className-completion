@@ -1,5 +1,5 @@
 {
-  "name": "vscode-className-Completion",
+  "name": "vscode-className-completion",
   "displayName": "ClassName Completion",
   "description": "a simple className completion tips with react+sass",
   "version": "0.0.6",
