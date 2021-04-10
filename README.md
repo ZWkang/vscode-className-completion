@@ -1,5 +1,9 @@
 <h1 align="center">vscode-className-completion</h1>
 
+---
+
+<img src="./assets/use-extension-example.gif" />
+
 ## Introduction
 
 className completion is an extension that provides you can have some completion tips when you was write className in React.
