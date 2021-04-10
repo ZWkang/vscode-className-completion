@@ -2,14 +2,12 @@ import * as nodeSass from 'sass';
 import * as css from 'css';
 
 import { depFileReg } from './constants';
-import getFileContentStringSync from './getFileContentStringSync';
 import { removeDuplicationList } from './util';
 
 function parseSassFileClassName(filePath: string) {
   if (depFileReg.test(filePath)) {
-    const fileContent = getFileContentStringSync(filePath);
     const result = nodeSass.renderSync({
-      data: fileContent
+      file: filePath
     });
     const cssContent = result.css.toString('utf-8');
     const cssParser = css.parse(cssContent);
