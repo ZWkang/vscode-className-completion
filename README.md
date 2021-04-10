@@ -2,7 +2,7 @@
 
 ---
 
-<img src="./assets/use-extension-example.gif" />
+<img src="https://github.com/ZWkang/vscode-className-completion/blob/main/assets/use-extension-example.gif" />
 
 ## Introduction
 
