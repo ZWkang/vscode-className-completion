@@ -13,9 +13,9 @@ className completion is an extension that provides you can have some completion 
 - [ ] support more file import analysis like less
 - [ ] support in more lib. like Vue, not just in React.
 - [ ] user can setting there support import analysis file
-- [ ]... more
+- [ ] ... more
 
-> welcome to share more idea, we can make it better.
+> welcome to share more idea, we can made it better.
 
 Feel free to ask questions, post issues, submit pull request, and request new features.
 
@@ -23,7 +23,7 @@ For more information about this project and how to use this extension, please ch
 
 ## Documentation
 
-TODO
+Wait a moment, maybe we don't need any documentation, because it was no any configure.
 
 ## Changelog
 
