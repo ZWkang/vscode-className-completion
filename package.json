@@ -28,24 +28,24 @@
     "watch": "tsc -watch -p ./"
   },
   "devDependencies": {
-    "@types/node": "^12.12.0",
-    "@types/vscode": "^1.32.0",
-    "@types/css": "^0.0.31",
-    "@types/sass": "^1.16.0",
     "@types/babel__core": "^7.0.1",
+    "@types/css": "^0.0.31",
+    "@types/lru-cache": "^5.1.0",
+    "@types/node": "^12.12.0",
+    "@types/sass": "^1.16.0",
+    "@types/vscode": "^1.32.0",
     "@typescript-eslint/eslint-plugin": "^4.16.0",
     "@typescript-eslint/parser": "^4.16.0",
-    "@types/lru-cache": "^5.1.0",
-    "eslint": "^7.21.0"
+    "eslint": "^7.21.0",
+    "typescript": "^4.2.2",
+    "@babel/core": "^7.0.1"
   },
   "dependencies": {
-    "@babel/core": "^7.0.1",
     "css": "^3.0.0",
     "css-selector-classes": "^0.1.2",
     "lru-cache": "^6.0.0",
     "sass": "^1.32.8",
-    "sucrase": "^3.17.1",
-    "typescript": "^4.2.2"
+    "sucrase": "^3.17.1"
   },
   "contributes": {}
 }
