@@ -10,10 +10,9 @@ className completion is an extension that provides you can have some completion 
 
 - [x] support scss/sass/css file import in React
 - [x] support React file className completion
-- [ ] support more file import analysis like less
+- [x] support more file import analysis like less
 - [ ] support in more lib. like Vue, not just in React.
 - [ ] user can setting there support import analysis file
-- [ ] ... more
 
 > welcome to share more idea, we can made it better.
 
