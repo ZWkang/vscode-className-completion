@@ -7,12 +7,13 @@ import {
   flat,
   testIsMatch,
   getStyleFileCache,
-  setStyleFileCache
+  setStyleFileCache,
+  removeDuplicationList
 } from './util';
 import parseSassFileClassName from './parseSassFile';
 import getFileContentStringSync from './getFileContentStringSync';
 
-function SassProvideCompletionItems(
+async function SassProvideCompletionItems(
   document: vscode.TextDocument,
   position: vscode.Position,
   token: vscode.CancellationToken,
@@ -25,15 +26,18 @@ function SassProvideCompletionItems(
   const sassDepsResolvedPathList = sassDepsList.map((o: any) =>
     path.join(path.dirname(uri), o)
   );
-  const cssClassList = sassDepsResolvedPathList
-    .map(o => {
+  const parseFiles = await Promise.all(
+    sassDepsResolvedPathList.map(async o => {
       if (getStyleFileCache(o)) return getStyleFileCache(o);
-      const content = parseSassFileClassName(o);
+      const content = await parseSassFileClassName(o);
       setStyleFileCache(o, content);
       return content;
     })
-    .reduce((prev, next) => [...prev, ...next], []);
-
+  );
+  const cssClassList = parseFiles.reduce(
+    (prev, next) => [...prev, ...next],
+    []
+  );
   const linePrefix = document
     .lineAt(position)
     .text.substr(0, position.character);
@@ -41,7 +45,8 @@ function SassProvideCompletionItems(
   if (!testIsMatch(linePrefix)) {
     return undefined;
   }
-  return flat(cssClassList.map(CSC)).map(
+
+  return removeDuplicationList(flat(cssClassList.map(CSC))).map(
     (o: any) => new vscode.CompletionItem(o, vscode.CompletionItemKind.Class)
   );
 }

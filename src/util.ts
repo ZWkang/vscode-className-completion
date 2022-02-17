@@ -1,6 +1,11 @@
+import * as fs from 'fs';
+import * as util from 'util';
+
 import singletonCache from './cache';
 import { triggerSuggestLineText } from './constants';
-import getCurrentActiveWorkspacePath from './getCurrentActiveWorkspacePath';
+
+export const readFile = util.promisify(fs.readFile);
+export const exists = util.promisify(fs.exists);
 
 export function removeDuplicationList<T extends string>(arr: T[]): T[] {
   if (Array.isArray(arr)) {

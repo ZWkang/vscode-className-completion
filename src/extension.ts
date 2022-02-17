@@ -7,7 +7,7 @@ import * as vscode from 'vscode';
 import SassProvideCompletionItems from './sassCompletionProvider';
 
 import singletonCache from './cache';
-import { depFileReg } from './constants';
+import { needToBeParseDepends } from './constants';
 import parseSassFileClassName from './parseSassFile';
 
 const documentSelector: vscode.DocumentSelector = [
@@ -25,18 +25,28 @@ const documentSelector: vscode.DocumentSelector = [
   }
 ];
 
-export function activate(context: vscode.ExtensionContext) {
-  vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-    const cacheInstance = singletonCache.getInstance({ max: 200 });
-    const nowSavingFilePath = document.uri.path;
-    if (depFileReg.test(nowSavingFilePath)) {
-      cacheInstance.set(
-        nowSavingFilePath,
-        parseSassFileClassName(nowSavingFilePath)
-      );
+export async function activate(context: vscode.ExtensionContext) {
+  const classNotification = vscode.commands.registerCommand(
+    'extension.className-completion',
+    () => {
+      vscode.window.showInformationMessage('样式自动补全已准备就绪!');
     }
-    return;
-  });
+  );
+
+  vscode.workspace.onDidSaveTextDocument(
+    async (document: vscode.TextDocument) => {
+      const cacheInstance = singletonCache.getInstance({ max: 200 });
+      const nowSavingFilePath = document.uri.path;
+      if (needToBeParseDepends.test(nowSavingFilePath)) {
+        const parseResult = await parseSassFileClassName(nowSavingFilePath);
+        if (!parseResult) return;
+        cacheInstance.set(nowSavingFilePath, parseResult);
+      }
+      return;
+    }
+  );
+
+  context.subscriptions.push(classNotification);
 
   const quotesProvider = vscode.languages.registerCompletionItemProvider(
     documentSelector,

@@ -1,27 +1,25 @@
-import * as nodeSass from 'sass';
 import * as css from 'css';
-
-import { depFileReg } from './constants';
+import * as path from 'path';
 import { removeDuplicationList } from './util';
+import map from './parses';
 
-function parseSassFileClassName(filePath: string) {
-  if (depFileReg.test(filePath)) {
-    const result = nodeSass.renderSync({
-      file: filePath
-    });
-    const cssContent = result.css.toString('utf-8');
-    const cssParser = css.parse(cssContent);
-    if (!cssParser.stylesheet) {
-      return [];
-    }
-    const selectorList = cssParser.stylesheet.rules
-      .map((rule: css.Rule) => rule?.selectors)
-      .filter(v => v)
-      .reduce((prev = [], next = []) => [...prev, ...next], []);
-
-    return removeDuplicationList<string>(selectorList || []);
+async function parseSassFileClassName(filePath: string) {
+  const extname = path.extname(filePath);
+  let fileContent = '';
+  if (map.has(extname)) {
+    fileContent = await map.get(extname)(filePath);
   }
-  return [];
+  if (!fileContent) return;
+  const cssParser = css.parse(fileContent);
+  if (!cssParser.stylesheet) {
+    return [];
+  }
+  const selectorList = cssParser.stylesheet.rules
+    .map((rule: css.Rule) => rule?.selectors)
+    .filter(Boolean)
+    .reduce((prev = [], next = []) => [...prev, ...next], []);
+
+  return removeDuplicationList<string>(selectorList || []);
 }
 
 export default parseSassFileClassName;
