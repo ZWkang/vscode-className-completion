@@ -23,21 +23,23 @@
   ],
   "main": "./out/extension.js",
   "scripts": {
-    "vscode:prepublish": "rm -rf out && npm run compile",
+    "vscode:prepublish": "rm -rf out && npm run minify",
     "compile": "tsc -p ./",
     "lint": "eslint . --ext .ts,.tsx",
-    "watch": "tsc -watch -p ./"
+    "watch": "npm run esbuild-base -- --sourcemap --watch",
+    "minify": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node"
   },
   "devDependencies": {
     "@types/babel__core": "^7.0.1",
     "@types/css": "^0.0.31",
+    "@types/less": "^3.0.3",
     "@types/lru-cache": "^5.1.0",
     "@types/node": "^12.12.0",
     "@types/sass": "^1.16.0",
     "@types/vscode": "^1.32.0",
     "@typescript-eslint/eslint-plugin": "^4.16.0",
     "@typescript-eslint/parser": "^4.16.0",
-    "@types/less": "^3.0.3",
     "eslint": "^7.21.0",
     "typescript": "^4.2.2"
   },
@@ -45,6 +47,7 @@
     "@babel/core": "^7.0.1",
     "css": "^3.0.0",
     "css-selector-classes": "^0.1.2",
+    "esbuild": "^0.14.49",
     "less": "^4.1.2",
     "lru-cache": "^6.0.0",
     "sass": "^1.32.8",
